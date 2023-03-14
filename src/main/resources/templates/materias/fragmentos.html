@@ -1,0 +1,20 @@
+
+
+    <div class="container" th:fragment="form(materiaDTO, action)">
+        <div class="row">
+            <form th:object="${materiaDTO}" th:action="${action}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Nome da Materia</label>
+                    <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{name}">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{description}">
+                    <div class="invalid-feedback" th:errors="*{description}"></div>
+                </div>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+                <a href="javascript:history.back()">Voltar</a>
+            </form>
+        </div>
+    </div>

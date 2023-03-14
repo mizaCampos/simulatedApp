@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head(Questoẽs)}"></head>
+
+<body>
+<header th:replace="~{fragmentos :: header('Questões')}"></header>
+
+<div class="container">
+    <form method="POST">
+        <label class="form-label">Enunciado</label>
+        <input class="form-control" type="text" name="statement">
+        <label class="form-label">Tipo da Questão</label>
+        <select class="form-select" name="type">
+            <option th:each="type : ${type}"
+                    th:value="${type}" th:text="${type}"></option>
+        </select>
+        <button type="submit" class="btn btn-primary">SALVAR</button>
+    </form>
+    <div class="row">
+        <div class="col-12">
+            <h2>Listagem de Perguntas</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Enunciado</th>
+                    <th scope="col">Type</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="question : ${questions}">
+                    <th scope="row" th:text="${question.id}">1</th>
+                    <td th:text="${question.statement}">Enunciado</td>
+                    <td th:text="${question.type}">Type</td>
+                    <td><a th:href="@{/questions/{id}(id = ${question.id})}">Answers</a></td>
+                    <td><a th:href="@{/questions/{id}/edit(id = ${question.id})}">Editar Questão</a></td>
+                    <td class="col-1">
+                        <a href="#" data-bs-toggle="modal" th:attr="data-bs-target='#staticBackdrop'+${question.id}">Deletar Questão</a>
+                        <div th:replace="~{questions/delete-modal :: delete}"></div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="javascript:history.back()">Voltar</a>
+</div>
+
+</body>
+</html>

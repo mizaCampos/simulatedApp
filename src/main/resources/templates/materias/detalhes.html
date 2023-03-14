@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head(Materias)}"></head>
+
+<header class="cabecalho" th:replace="~{fragmentos :: header('Conteúdos')}"></header>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="container">
+            <form method="POST">
+                <label class="form-label">Nome</label>
+                <input class="form-control" type="text" value="" name="name">
+                <label class="form-label">Descrição</label>
+                <input class="form-control" type="text" value="" name="description">
+                <button type="submit" class="btn btn-primary">SALVAR</button>
+            </form>
+            <div class="row"></div>
+            <div class="col-12">
+                <h2>Listagem de conteúdos</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">NOME</th >
+                        <th scope="col">DESCRIÇÃO</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="content : ${contents}">
+                        <th scope="row" th:text="${content.id}">1</th>
+                        <td th:text="${content.name}">Name</td>
+                        <td th:text="${content.description}">Description</td>
+                        <td><a th:href="@{/contents/{id}(id = ${content.id})}">Questões</a></td>
+                        <td><a href="@{/contents/{id}/edit(id = ${content.id})}">Editar Conteúdos</a></td>
+                        <td class="col-1">
+                            <a href="#" data-bs-toggle="modal" th:attr="data-bs-target='#staticBackdrop'+${content.id}">Deletar</a>
+                            <div th:replace="~{contents/delete-modal :: delete}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                    <a href="javascript:history.back()"><button class="btn btn-primary">Voltar</button></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

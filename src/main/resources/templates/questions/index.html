@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: head(Questões)}"></head>
+<body>
+<header th:replace="~{fragmentos :: header('Lista de Questoẽs')}"></header>
+
+<div class="container mb-4">
+    <div class="col-12">
+        <span th:styleappend="${(param.erro == null || param.mensagem == null) ? 'display: none;' : ''}"
+              th:classappend="${(param.erro != null && param.erro) ? 'error-message' : 'success-message'}"
+              th:text="${param.mensagem != null ? param.mensagem : ''}">Uma mensagem!</span>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">ENUNCIADO</th>
+                    <th scope="col">TIPO</th>
+                    <th scope="col">Respostas</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="question : ${questions}">
+                    <th scope="row" th:text="${question.id}">ID</th>
+                    <td th:text="${question.statement}">statement</td>
+                    <td th:text="${question.type.toString()}">Tipo</td>
+                    <td><a th:href="@{/questions/{id}(id = ${question.id})}">Respostas</a></td>
+                    <td><a th:href="@{/questions/{id}/edit(id = ${question.id})}">Editar Questão</a></td>
+                    <td class="col-1">
+                        <a href="#" data-bs-toggle="modal" th:attr="data-bs-target='#staticBackdrop'+${question.id}">Deletar</a>
+                        <div th:replace="~{questions/delete-modal :: delete}"></div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="javascript:history.back()">Voltar</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</body>
+</html>

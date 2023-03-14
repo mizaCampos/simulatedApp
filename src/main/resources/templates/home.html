@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragmentos :: head('Home')}"></head>
+<body>
+<header th:replace="~{fragmentos :: header('Home')}"></header>
+
+<main>
+    <div class="container mt-4">
+        <div class="list-group">
+            <button type="button" class="list-group-item list-group-item-action"
+                    th:onclick="'window.location.href=\'/materias\''">Materias</button>
+            <button type="button" class="list-group-item list-group-item-action"
+                    th:onclick="'window.location.href=\'/contents\''">Conteúdos</button>
+            <button type="button" class="list-group-item list-group-item-action"
+                    th:onclick="'window.location.href=\'/questions\''">Questões</button>
+            <button type="button" class="list-group-item list-group-item-action"
+                    th:onclick="'window.location.href=\'/answers\''">Respostas</button>
+        </div>
+    </div>
+</main>
+
+
+
+
+</body>
+
+</html>
