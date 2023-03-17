@@ -105,6 +105,13 @@ public class AnswerController {
         return mv;
     }
 
+    //Metodo para tratar erros
+    private ModelAndView retornaErroMateria(String msg){
+        ModelAndView mv = new ModelAndView("redirect:/materias");
+        mv.addObject("mensagem", msg);
+        mv.addObject("erro", true);
+        return mv;
+    }
 
 
 }

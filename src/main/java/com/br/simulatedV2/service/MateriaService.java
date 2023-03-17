@@ -38,13 +38,22 @@ public class MateriaService {
     }
 
     public void delete(Long id){
-        try {
-            materiaRepository.deleteById(id);
-        }catch (DataIntegrityViolationException e){
-            throw new com.br.simulatedV2.exceptions.exceptionsClass.DataIntegrityViolationException("O objeto não pode ser" +
-                    "deletado pois possui outros objetos associados a ele");
-        }
+        materiaRepository.deleteById(id);
     }
+
+    public List<Materia> findMateriaByName(String name){
+        List<Materia> materias =  materiaRepository.findMateriaByName(name);
+        return materias;
+    }
+
+//    public void delete(Long id){
+//        try {
+//            materiaRepository.deleteById(id);
+//        }catch (DataIntegrityViolationException e){
+//            throw new com.br.simulatedV2.exceptions.exceptionsClass.DataIntegrityViolationException("O objeto não pode ser" +
+//                    "deletado pois possui outros objetos associados a ele");
+//        }
+//    }
 
     public Optional<Materia>objOptional(Long id){
         Optional<Materia> obj = materiaRepository.findById(id);

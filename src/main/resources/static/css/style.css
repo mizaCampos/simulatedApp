@@ -4,7 +4,7 @@
 }
 
 .error-message{
-    color: #198754;
+    color: red;
 }
 
 .sucess-message{
@@ -30,4 +30,14 @@ h2{
    margin 10px;
    padding: 10px;
    background-color: blue;
+}
+
+.esconder {
+  display: none;
+}
+
+.search{
+  position: absolute;
+  top: 90;
+  right: 280;
 }

@@ -5,12 +5,19 @@
 
 <div class="container mb-4">
     <div class="col-12">
-        <span th:styleappend="${(param.erro == null || param.mensagem == null) ? 'display: none;' : ''}"
-              th:classappend="${(param.erro != null && param.erro) ? 'error-message' : 'success-message'}"
-              th:text="${param.mensagem != null ? param.mensagem : ''}">Uma mensagem!</span>
+        <span id="minha-span" th:styleappend="${(param.erro == null || param.mensagem == null) ? 'display: none;' : '' }"
+              th:classappend="${(param.erro != null) ? 'error-message' : 'success-message'}"
+              th:text="${param.mensagem != null ? param.mensagem : ''}">Resultado</span>
     </div>
 </div>
 <div class="container">
+    <div class="search">
+        <form action="/contents/pesquisarcontents" method="post">
+            <label>Pesquisa Por nome:</label>
+            <input name="nomepesquisa">
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
     <div class="row">
         <div class="col-12">
             <table class="table">
@@ -47,6 +54,11 @@
         <a href="javascript:history.back()">Voltar</a>
     </div>
 </div>
+<script>
+    setTimeout(function() {
+     document.getElementById('minha-span').classList.add('esconder');
+    }, 5000);
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

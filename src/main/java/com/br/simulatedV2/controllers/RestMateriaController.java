@@ -4,6 +4,9 @@ import com.br.simulatedV2.dto.MateriaDTO;
 import com.br.simulatedV2.models.Materia;
 import com.br.simulatedV2.service.MateriaService;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/back")
 public class RestMateriaController {
 
+//    Logger logger = LogManager.getLogger(RestMateriaController.class);
+
+
     MateriaService materiaService;
 
     //REQUEST ALL MATERIALS
@@ -26,6 +32,8 @@ public class RestMateriaController {
         ModelAndView mv = new ModelAndView("/materias/index");
         List<Materia> materiaList = materiaService.findAll();
         List<MateriaDTO> dtoList = materiaList.stream().map(obj -> new MateriaDTO(obj)).collect(Collectors.toList());
+//        logger.trace("TRACE");
+//        logger.debug("DEBUG");
         return ResponseEntity.status(HttpStatus.OK).body(dtoList);
     }
 

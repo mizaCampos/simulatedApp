@@ -6,13 +6,11 @@ import com.br.simulatedV2.models.Materia;
 import com.br.simulatedV2.service.ContentService;
 import com.br.simulatedV2.service.MateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -122,9 +120,17 @@ public class MateriaController {
             materiaService.delete(id);
             mv.addObject("mensagem", "Materia deletada com sucesso");
             mv.addObject("erro", false);
-        }catch (EmptyResultDataAccessException e){
-            mv = retornaErroMateria("Não foi possivel excluir a materia informada");
+        }catch (DataIntegrityViolationException e){
+           mv = this.retornaErroMateria("Erro em deletar a matéria de id " + id + " pois contém objetos relacionados ");
         }
+        return mv;
+    }
+
+    @PostMapping("/pesquisarmateria")
+    public ModelAndView pesquisar(@RequestParam("nomepesquisa")String nomepesquisa){
+        ModelAndView mv = new ModelAndView("/materias/index");
+        mv.addObject("materias", materiaService.findMateriaByName(nomepesquisa));
+        mv.addObject("materiaobj", new Materia());
         return mv;
     }
 
@@ -134,4 +140,5 @@ public class MateriaController {
         mv.addObject("erro", true);
         return mv;
     }
+
 }

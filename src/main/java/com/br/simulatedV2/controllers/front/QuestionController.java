@@ -1,27 +1,22 @@
 package com.br.simulatedV2.controllers.front;
 
 import com.br.simulatedV2.Enum.Type;
-import com.br.simulatedV2.dto.ContentDTO;
 import com.br.simulatedV2.dto.QuestionDTO;
 import com.br.simulatedV2.models.Answer;
-import com.br.simulatedV2.models.Content;
+import com.br.simulatedV2.models.Materia;
 import com.br.simulatedV2.models.Question;
 import com.br.simulatedV2.service.AnswerService;
 import com.br.simulatedV2.service.QuestionService;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/questions")
@@ -113,16 +108,35 @@ public class QuestionController {
         }
     }
 
+    //metodo do componente de pesquisar da pagina
+    @PostMapping("/pesquisarquestions")
+    public ModelAndView pesquisarByStatement(@RequestParam("statementpesquisa")String statementpesquisa){
+        ModelAndView mv = new ModelAndView("/questions/index");
+        mv.addObject("questions", questionService.findQuestionByStatement(statementpesquisa));
+        mv.addObject("questionobj", new Question());
+        return mv;
+    }
 
     //Request para deletar uma question
     @GetMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable Long id){
         ModelAndView mv = new ModelAndView("redirect:/questions");
         try {
-            questionService.delete(id);
-        }catch (EmptyResultDataAccessException e){
+            questionService.deleteFront(id);
+            mv.addObject("mensagem", "Questão deletada com sucesso");
+            mv.addObject("erro", false);
+        }catch (DataIntegrityViolationException e){
+            mv = this.retornaErroMateria("Erro em deletar a Questão de ID " + id + " pois contém respostas relacionadas a ela! ");
             return mv;
         }
+        return mv;
+    }
+
+    //Metodo para tratar erros
+    private ModelAndView retornaErroMateria(String msg){
+        ModelAndView mv = new ModelAndView("redirect:/questions");
+        mv.addObject("mensagem", msg);
+        mv.addObject("erro", true);
         return mv;
     }
 

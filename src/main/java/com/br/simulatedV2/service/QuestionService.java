@@ -63,6 +63,14 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
+    public List<Question>findQuestionByStatement(String name){
+        return questionRepository.findQuestionByStatement(name);
+    }
+
+    public void deleteFront(Long id){
+        questionRepository.deleteById(id);
+    }
+
     public void delete(Long id){
         try {
             questionRepository.deleteById(id);

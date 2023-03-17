@@ -10,13 +10,12 @@ import com.br.simulatedV2.service.MateriaService;
 import com.br.simulatedV2.service.QuestionService;
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.Banner;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
@@ -106,6 +105,15 @@ public class ContentController {
         }
     }
 
+    //metodo do componente de pesquisar da pagina
+    @PostMapping("/pesquisarcontents")
+    public ModelAndView pesquisarByName(@RequestParam("nomepesquisa")String nomepesquisa){
+        ModelAndView mv = new ModelAndView("/contents/index");
+        mv.addObject("contents",contentService.findContentByName(nomepesquisa));
+        mv.addObject("contentobj", new Content());
+        return mv;
+    }
+
     //request que recebe o form de edição de um content /{id}/edit
     @PostMapping("/{id}/edit")
     public ModelAndView update(@PathVariable Long id, @Valid ContentDTO obj, BindingResult bindingResult){
@@ -128,19 +136,28 @@ public class ContentController {
         }
     }
 
+
     //Request para deletar um conteudo
     @GetMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable Long id){
         ModelAndView mv = new ModelAndView("redirect:/contents");
         try {
-            contentService.delete(id);
-        }catch (EmptyResultDataAccessException e){
-            return mv;
+            contentService.deleteFront(id);
+            mv.addObject("mensagem", "Conteúdo deletado com sucesso");
+            mv.addObject("erro", false);
+        }catch (DataIntegrityViolationException e){
+            mv = this.retornaErroMateria("Erro em deletar o conteudo de ID " + id + " pois contém questões relacionadas a ele");
         }
         return mv;
     }
 
 
+    private ModelAndView retornaErroMateria(String msg){
+        ModelAndView mv = new ModelAndView("redirect:/contents");
+        mv.addObject("mensagem", msg);
+        mv.addObject("erro", true);
+        return mv;
+    }
 
 
 }

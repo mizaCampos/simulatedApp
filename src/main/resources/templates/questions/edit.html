@@ -12,7 +12,7 @@
 <div class="container">
     <div class="container">
         <div class="row">
-            <form th:object="${questionDTO}" th:action="@{/questions/{id}(id = ${id})}" method="POST">
+            <form th:object="${questionDTO}" th:action="@{/questions/{id}/edit(id = ${id})}" method="POST">
                 <div class="mb-3">
                     <label class="form-label">Enunciado</label>
                     <input class="form-control" th:errorclass="is-invalid" type="text" th:field="*{statement}">

@@ -48,11 +48,19 @@ public class ContentService {
         return contentRepository.save(content);
     }
 
+    public List<Content>findContentByName(String name){
+        return contentRepository.findContentByName(name);
+    }
+
     public Content replace(Long id, ContentDTO contentDTO){
         Content content = findById(id);
         content.setName(contentDTO.getName());
         content.setDescription(contentDTO.getDescription());
         return contentRepository.save(content);
+    }
+
+    public void deleteFront(Long id){
+        contentRepository.deleteById(id);
     }
 
     public void delete(Long id){
